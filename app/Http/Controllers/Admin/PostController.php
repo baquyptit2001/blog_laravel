@@ -8,7 +8,9 @@ use App\Models\Post;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 class PostController extends Controller
 {
@@ -17,7 +19,7 @@ class PostController extends Controller
      *
      * @return Application|Factory|View
      */
-    public function index()
+    public function index(): View|Factory|Application
     {
         return view('posts.index', [
             'posts' => Post::all(),
@@ -29,7 +31,7 @@ class PostController extends Controller
      *
      * @return Application|Factory|View
      */
-    public function create()
+    public function create(): View|Factory|Application
     {
         $categories = Category::orderBy('sort_order', 'asc')->get();
         return view('posts.create', compact('categories'));
@@ -38,10 +40,10 @@ class PostController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return RedirectResponse
      */
-    public function store(Request $request)
+    public function store(Request $request): RedirectResponse
     {
         $request->validate([
             'title' => 'required|string|max:255',
@@ -69,8 +71,8 @@ class PostController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param \App\Models\Post $post
-     * @return \Illuminate\Http\Response
+     * @param Post $post
+     * @return Response
      */
     public function show(Post $post)
     {
@@ -80,7 +82,7 @@ class PostController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param \App\Models\Post $post
+     * @param $slug
      * @return Application|Factory|View
      */
     public function edit($slug)
@@ -93,9 +95,9 @@ class PostController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param \Illuminate\Http\Request $request
-     * @param \App\Models\Post $post
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @param $slug
+     * @return RedirectResponse
      */
     public function update(Request $request, $slug)
     {
@@ -123,8 +125,8 @@ class PostController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param \App\Models\Post $post
-     * @return \Illuminate\Http\Response
+     * @param Post $post
+     * @return Response
      */
     public function destroy(Post $post)
     {
