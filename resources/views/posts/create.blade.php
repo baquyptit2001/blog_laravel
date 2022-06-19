@@ -27,7 +27,10 @@
             <input type="file" class="form-control" id="postImage" aria-describedby="postImage" aria-label="Upload"
                    name="image" onchange="loadFile(event)">
         </div>
-        <button class="btn btn-success mt-3" type="submit">Submit</button>
+        <div class="mt-3">
+            <button class="btn btn-success" type="submit">Submit</button>
+            <a href="{{ url()->previous() }}" class="btn btn-secondary">Back</a>
+        </div>
     </form>
 @endsection
 

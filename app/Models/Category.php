@@ -17,6 +17,11 @@ class Category extends Model
         'description',
     ];
 
+    public function getRouteKeyName()
+    {
+        return 'slug';
+    }
+
     public function posts(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(Post::class);
@@ -28,5 +33,4 @@ class Category extends Model
         $this->attributes['name'] = $value;
         $this->attributes['slug'] = str_slug($value);
     }
-
 }

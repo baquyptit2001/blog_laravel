@@ -21,19 +21,19 @@ Route::group(['middleware' => ['isLoggedIn']], function () {
         Route::get('/', [\App\Http\Controllers\Admin\PostController::class, 'index'])->name('posts.index');
         Route::get('/create', [\App\Http\Controllers\Admin\PostController::class, 'create'])->name('posts.create');
         Route::post('/create', [\App\Http\Controllers\Admin\PostController::class, 'store'])->name('posts.store');
-        Route::get('/{slug}', [\App\Http\Controllers\Admin\PostController::class, 'show'])->name('posts.show');
-        Route::get('/edit/{slug}', [\App\Http\Controllers\Admin\PostController::class, 'edit'])->name('posts.edit');
-        Route::post('/edit/{slug}', [\App\Http\Controllers\Admin\PostController::class, 'update'])->name('posts.update');
-        Route::get('/delete/{slug}', [\App\Http\Controllers\Admin\PostController::class, 'destroy'])->name('posts.destroy');
+        Route::get('/{post}', [\App\Http\Controllers\Admin\PostController::class, 'show'])->name('posts.show');
+        Route::get('/edit/{post}', [\App\Http\Controllers\Admin\PostController::class, 'edit'])->name('posts.edit');
+        Route::post('/edit/{post}', [\App\Http\Controllers\Admin\PostController::class, 'update'])->name('posts.update');
+        Route::get('/delete/{post}', [\App\Http\Controllers\Admin\PostController::class, 'destroy'])->name('posts.destroy');
     });
     Route::group(['prefix' => 'categories'], function () {
         Route::get('/', [\App\Http\Controllers\Admin\CategoryController::class, 'index'])->name('categories.index');
         Route::get('/create', [\App\Http\Controllers\Admin\CategoryController::class, 'create'])->name('categories.create');
         Route::post('/create', [\App\Http\Controllers\Admin\CategoryController::class, 'store'])->name('categories.store');
-        Route::get('/{slug}', [\App\Http\Controllers\Admin\CategoryController::class, 'show'])->name('categories.show');
-        Route::get('/edit/{slug}', [\App\Http\Controllers\Admin\CategoryController::class, 'edit'])->name('categories.edit');
-        Route::post('/edit/{slug}', [\App\Http\Controllers\Admin\CategoryController::class, 'update'])->name('categories.update');
-        Route::get('/delete/{slug}', [\App\Http\Controllers\Admin\CategoryController::class, 'destroy'])->name('categories.destroy');
+        Route::get('/{category}', [\App\Http\Controllers\Admin\CategoryController::class, 'show'])->name('categories.show');
+        Route::get('/edit/{category}', [\App\Http\Controllers\Admin\CategoryController::class, 'edit'])->name('categories.edit');
+        Route::post('/edit/{category}', [\App\Http\Controllers\Admin\CategoryController::class, 'update'])->name('categories.update');
+        Route::get('/delete/{category}', [\App\Http\Controllers\Admin\CategoryController::class, 'destroy'])->name('categories.destroy');
     });
 });
 

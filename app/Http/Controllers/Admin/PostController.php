@@ -66,6 +66,7 @@ class PostController extends Controller
         $post->user_id = auth()->id();
         $post->image = 'thumbnail/' . $imageName;
         $post->save();
+        return redirect()->route('posts.index');
     }
 
     /**
@@ -85,9 +86,8 @@ class PostController extends Controller
      * @param $slug
      * @return Application|Factory|View
      */
-    public function edit($slug)
+    public function edit(Post $post)
     {
-        $post = Post::where('slug', $slug)->first();
         $categories = Category::orderBy('sort_order', 'asc')->get();
         return view('posts.edit', compact('post', 'categories'));
     }
@@ -99,21 +99,24 @@ class PostController extends Controller
      * @param $slug
      * @return RedirectResponse
      */
-    public function update(Request $request, $slug)
+    public function update(Request $request, Post $post)
     {
         $request->validate([
             'title' => 'required|string|max:255',
             'category_id' => 'required|integer',
             'post' => 'required|string',
         ]);
-        $post = Post::where('slug', $slug)->first();
         if ($request->hasFile('image')) {
             $request->validate([
                 'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:5120',
             ]);
+            $old_image = $post->image;
             $imageName = time() . '.' . $request->image->getClientOriginalExtension();
             $request->image->move(public_path('thumbnail'), $imageName);
             $post->image = 'thumbnail/' . $imageName;
+            if (file_exists(public_path($old_image))) {
+                unlink(public_path($old_image));
+            }
         }
         $post->title = $request->title;
         $post->category_id = $request->category_id;
@@ -130,6 +133,10 @@ class PostController extends Controller
      */
     public function destroy(Post $post)
     {
-        //
+        if (file_exists(public_path($post->image))) {
+            unlink(public_path($post->image));
+        }
+        $post->delete();
+        return redirect()->route('posts.index');
     }
 }
