@@ -22,7 +22,7 @@ class CreateUser extends Command
      *
      * @var string
      */
-    protected $description = 'Command description';
+    protected $description = 'Create User By Command Line';
 
     /**
      * Execute the console command.
@@ -31,23 +31,25 @@ class CreateUser extends Command
      */
     public function handle()
     {
-        $name = $this->ask('What is the your name?');
-        $email = $this->ask('What is your email?');
-        $password = $this->secret('What is your password?');
-        $password_confirmation = $this->secret('Type your password again');
-        $user = new \App\Models\User();
-        $user->name = $name;
-        $user->email = $email;
-        $user->password = $password;
-        $user->password_confirmation = $password_confirmation;
-        $this->info('Validating user...');
-        Log::channel('single')->info(print_r($user->toArray(), true));
-        $user->makeVisible('password');
-        $validator = Validator::make($user->toArray(), \App\Models\User::rules());
-        if ($validator->fails()) {
-            $this->error('Validation failed');
-            $this->error($validator->errors()->first());
-            return 1;
+        while (true) {
+            $name = $this->ask('What is the your name?');
+            $email = $this->ask('What is your email?');
+            $password = $this->secret('What is your password?');
+            $password_confirmation = $this->secret('Type your password again');
+            $user = new \App\Models\User();
+            $user->name = $name;
+            $user->email = $email;
+            $user->password = $password;
+            $user->password_confirmation = $password_confirmation;
+            $this->info('Validating user...');
+            $user->makeVisible('password');
+            $validator = Validator::make($user->toArray(), \App\Models\User::rules());
+            if ($validator->fails()) {
+                $this->error('Validation failed');
+                $this->error($validator->errors()->first());
+                continue;
+            }
+            break;
         }
         $this->info('Creating user...');
         User::create([

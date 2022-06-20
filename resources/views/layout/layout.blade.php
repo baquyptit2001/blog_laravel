@@ -166,7 +166,7 @@
 <body>
 <nav class="navbar navbar-expand-lg navbar-light bg-light mb-5">
     <div class="container-fluid">
-        <a data-bs-toggle="offcanvas" href="#offcanvasExample" id="toggle-side">
+        <a data-bs-toggle="offcanvas" href="#sidebarCanvas" id="toggle-side">
             <div id="burger-side">
                 <span></span>
                 <span></span>
@@ -207,9 +207,9 @@
         </div>
     </div>
 </nav>
-<div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
+<div class="offcanvas offcanvas-start" tabindex="-1" id="sidebarCanvas" aria-labelledby="sidebarCanvas">
     <div class="offcanvas-header">
-        <h5 class="offcanvas-title" id="offcanvasExampleLabel">Hello, {{ auth()->user()->name }}</h5>
+        <h5 class="offcanvas-title" id="sidebarCanvasLabel">Hello, {{ auth()->user()->name }}</h5>
         <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>
     <div class="offcanvas-body">
@@ -298,7 +298,7 @@
         $('#burger-side').click(function () {
             $(this).toggleClass('open');
         });
-        let myOffcanvas = document.getElementById('offcanvasExample')
+        let myOffcanvas = document.getElementById('sidebarCanvas')
         myOffcanvas.addEventListener('hidden.bs.offcanvas', function () {
             $('#burger-side').removeClass('open');
         })

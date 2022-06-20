@@ -74,7 +74,7 @@ class CategoryController extends Controller
      */
     public function edit(Category $category)
     {
-        return view('categories.edit', compact('category'));
+        //
     }
 
     /**
@@ -86,16 +86,7 @@ class CategoryController extends Controller
      */
     public function update(Request $request, Category $category)
     {
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'sort_order' => 'nullable|integer',
-            'description' => 'nullable|string',
-        ]);
-        $category->name = $request->name;
-        $category->sort_order = $request->sort_order;
-        $category->description = $request->description;
-        $category->save();
-        return redirect()->route('categories.index');
+        //
     }
 
     /**
@@ -106,7 +97,6 @@ class CategoryController extends Controller
      */
     public function destroy(Category $category)
     {
-        $category->delete();
-        return redirect()->route('categories.index');
+        //
     }
 }

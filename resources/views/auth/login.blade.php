@@ -63,6 +63,7 @@
             border-top-right-radius: 0;
         }
     </style>
+    <script src='https://www.google.com/recaptcha/api.js?onload=recaptchaOnload&render=explicit' async defer></script>
 </head>
 <body class="text-center justify-content-center">
 
@@ -70,7 +71,7 @@
     <x-errors.form-errors/>
     <form method="post">
         @csrf
-        <img class="mb-4" src="{{ asset("img/logo.jpg")  }}" alt="" width="72" height="57">
+        <img class="mb-4" src="{{ asset("logo.png")  }}" alt="" width="72" height="57">
         <h1 class="h3 mb-3 fw-normal">Please sign in</h1>
 
         <div class="form-floating">
@@ -81,11 +82,31 @@
             <input type="password" class="form-control" id="floatingPassword" placeholder="Password" name="password">
             <label for="floatingPassword">Password</label>
         </div>
+        <div id="recaptcha" class=”g-recaptcha” data-sitekey=”6LeTpHQgAAAAABdDsu4rFYobT0GQPrTIKzvo9xoX”></div>
         <button class="w-100 btn btn-lg btn-primary" type="submit">Sign in</button>
         <p class="mt-5 mb-3 text-muted">&copy; 2022–{{ date('Y') }}</p>
     </form>
 </main>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"
+        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+<script type="text/javascript">
+    var _captchaTries = 0;
 
-
+    function recaptchaOnload() {
+        _captchaTries++;
+        if (_captchaTries > 9)
+            return;
+        if ($('.g-recaptcha').length > 0) {
+            grecaptcha.render("recaptcha", {
+                sitekey: 'site key here',
+                callback: function () {
+                    console.log('recaptcha callback');
+                }
+            });
+            return;
+        }
+        window.setTimeout(recaptchaOnload, 1000);
+    }
+</script>
 </body>
 </html>

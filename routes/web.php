@@ -41,7 +41,7 @@ Route::group(['middleware' => ['isLoggedIn']], function () {
 Route::group(['prefix' => 'accounts'], function () {
     Route::get('/login', [\App\Http\Controllers\Admin\AuthController::class, 'login_page'])->name('auth.login.page');
     Route::post('/login', [\App\Http\Controllers\Admin\AuthController::class, 'login'])->name('auth.login');
-    Route::get('/logout', [\App\Http\Controllers\Admin\AuthController::class, 'logout'])->name('auth.logout');
+    Route::get('/logout', [\App\Http\Controllers\Admin\AuthController::class, 'logout'])->name('auth.logout')->middleware('isLoggedIn');
 });
 
 Route::group(['prefix' => 'laravel-filemanager'], function () {
