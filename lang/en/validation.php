@@ -167,4 +167,6 @@ return [
 
     'attributes' => [],
 
+    'recaptcha'=>'Please verify that you are not a robot.',
+
 ];

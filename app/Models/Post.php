@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -18,6 +19,7 @@ class Post extends Model
 
     protected $appends = [
         'thumbnail',
+        'created_at_human',
     ];
 
     public function getRouteKeyName()
@@ -44,5 +46,11 @@ class Post extends Model
     public function getThumbnailAttribute()
     {
         return asset($this->image);
+    }
+
+    public function getCreatedAtHumanAttribute()
+    {
+//        return "abc";
+        return Carbon::createFromFormat('Y-m-d H:i:s', $this->created_at)->diffForHumans();
     }
 }

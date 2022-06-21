@@ -83,7 +83,7 @@
             <label for="floatingPassword">Password</label>
         </div>
         <div id="recaptcha" class=”g-recaptcha” data-sitekey=”6LeTpHQgAAAAABdDsu4rFYobT0GQPrTIKzvo9xoX”></div>
-        <button class="w-100 btn btn-lg btn-primary" type="submit">Sign in</button>
+        <button class="w-100 btn btn-lg btn-primary mt-3" type="submit">Sign in</button>
         <p class="mt-5 mb-3 text-muted">&copy; 2022–{{ date('Y') }}</p>
     </form>
 </main>
@@ -93,19 +93,12 @@
     var _captchaTries = 0;
 
     function recaptchaOnload() {
-        _captchaTries++;
-        if (_captchaTries > 9)
-            return;
-        if ($('.g-recaptcha').length > 0) {
-            grecaptcha.render("recaptcha", {
-                sitekey: 'site key here',
-                callback: function () {
-                    console.log('recaptcha callback');
-                }
-            });
-            return;
-        }
-        window.setTimeout(recaptchaOnload, 1000);
+        grecaptcha.render("recaptcha", {
+            sitekey: '6LeTpHQgAAAAABdDsu4rFYobT0GQPrTIKzvo9xoX',
+            callback: function () {
+                console.log('recaptcha callback');
+            }
+        });
     }
 </script>
 </body>

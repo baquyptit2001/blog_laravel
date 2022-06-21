@@ -18,9 +18,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('/', function () {
-    return response()->json([
-        'message' => 'Welcome to the API',
-        'status' => 'success',
-    ]);
+Route::group(['prefix' => 'posts'], function () {
+    Route::get('/', [\App\Http\Controllers\Api\PostController::class, 'index'])->name('posts.index');
+    Route::get('/{post}', [\App\Http\Controllers\Api\PostController::class, 'show'])->name('posts.show');
 });
