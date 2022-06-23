@@ -55,7 +55,8 @@ class CreateUser extends Command
         User::create([
             'name' => $user->name,
             'email' => $user->email,
-            'password' => Hash::make($user->password)
+            'password' => Hash::make($user->password),
+            'role' => 1
         ]);
         $this->info('User created successfully!');
         return 0;

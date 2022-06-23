@@ -66,6 +66,7 @@ class PostController extends Controller
         $post->user_id = auth()->id();
         $post->image = 'thumbnail/' . $imageName;
         $post->save();
+        return redirect()->route('posts.index');
     }
 
     /**
