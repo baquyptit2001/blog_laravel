@@ -53,4 +53,9 @@ class Post extends Model
 //        return "abc";
         return Carbon::createFromFormat('Y-m-d H:i:s', $this->created_at)->diffForHumans();
     }
+
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
+    }
 }

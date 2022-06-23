@@ -33,3 +33,8 @@ Route::group(['prefix' => 'auth'], function () {
     Route::post('/register', [\App\Http\Controllers\Api\AuthController::class, 'register'])->name('api.auth.register');
     Route::get('/logout', [\App\Http\Controllers\Api\AuthController::class, 'logout'])->name('api.auth.logout')->middleware('auth:sanctum');
 });
+
+Route::group(['prefix' => 'comments'], function () {
+//    Route::get('/{post}/{user}', [\App\Http\Controllers\Api\CommentController::class, 'index'])->name('comments.index');
+    Route::post('/{post}/{user}', [\App\Http\Controllers\Api\CommentController::class, 'store'])->name('comments.store');
+});

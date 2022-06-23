@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
 use App\Http\Requests\Auth\RegisterRequest;
+use App\Http\Resources\UserResource;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -26,7 +27,7 @@ class AuthController extends Controller
             return response()->json([
                 'access_token' => $token,
                 'token_type' => 'Bearer',
-                'user' => $user,
+                'user' => UserResource::make($user),
                 'status' => 200,
             ]);
         } else {
@@ -66,7 +67,7 @@ class AuthController extends Controller
             'role' => 0,
         ]);
         return response()->json(array(
-            'user' => $user,
+            'user' => UserResource::make($user),
             'code' => 200,
         ));
     }

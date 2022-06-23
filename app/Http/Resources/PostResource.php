@@ -12,7 +12,7 @@ class PostResource extends JsonResource
     /**
      * Transform the resource into an array.
      *
-     * @param  Request  $request
+     * @param Request $request
      * @return array
      */
     public function toArray($request): array
@@ -24,7 +24,8 @@ class PostResource extends JsonResource
             'content' => $this->content,
             'image' => $this->thumbnail,
             'category' => $this->category,
-            'user' => $this->user,
+            'user' => UserResource::make($this->user),
+            'comments' => CommentResource::collection($this->comments),
             'created_at' => date('d/m/Y', strtotime($this->created_at)),
             'created_at_human' => $this->created_at_human,
             'updated_at' => $this->updated_at,
