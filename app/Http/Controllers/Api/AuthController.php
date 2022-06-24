@@ -55,7 +55,9 @@ class AuthController extends Controller
 
     public function me(): \Illuminate\Http\JsonResponse
     {
-        return response()->json(auth()->user());
+        return response()->json([
+            'user' => UserResource::make(auth()->user()),
+        ]);
     }
 
     public function register(RegisterRequest $request)

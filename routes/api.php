@@ -37,4 +37,10 @@ Route::group(['prefix' => 'auth'], function () {
 Route::group(['prefix' => 'comments'], function () {
 //    Route::get('/{post}/{user}', [\App\Http\Controllers\Api\CommentController::class, 'index'])->name('comments.index');
     Route::post('/{post}/{user}', [\App\Http\Controllers\Api\CommentController::class, 'store'])->name('comments.store');
+    Route::get('/{post}/{page}/{size?}', [\App\Http\Controllers\Api\CommentController::class, 'post_comment'])->name('comments.post_comment');
+});
+
+Route::group(['prefix' => 'users'], function () {
+    Route::get('/{user}', [\App\Http\Controllers\Api\UserController::class, 'getUser'])->name('users.show');
+    Route::post('/{user}', [\App\Http\Controllers\Api\UserController::class, 'updateUser'])->name('users.update');
 });

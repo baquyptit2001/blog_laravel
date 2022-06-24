@@ -2,8 +2,7 @@
 
 namespace App\Http\Resources;
 
-use Carbon\Carbon;
-use Illuminate\Contracts\Support\Arrayable;
+use App\Models\Comment;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -25,7 +24,8 @@ class PostResource extends JsonResource
             'image' => $this->thumbnail,
             'category' => $this->category,
             'user' => UserResource::make($this->user),
-            'comments' => CommentResource::collection($this->comments),
+            'comments' => CommentResource::collection(array_slice($this->comments->reverse()->all(), 0, 5)),
+            'comment_count' => Comment::where('post_id', $this->id)->count(),
             'created_at' => date('d/m/Y', strtotime($this->created_at)),
             'created_at_human' => $this->created_at_human,
             'updated_at' => $this->updated_at,

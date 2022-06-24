@@ -32,4 +32,13 @@ class CommentController extends Controller
             'comments' => new CommentResource($comment),
         ]);
     }
+
+    public function post_comment(Post $post, $page, $size = 5)
+    {
+        $comments = Comment::where('post_id', $post->id)->orderBy('created_at', 'desc')->offset(($page - 1) * $size)->limit($size)->get();
+        return response()->json([
+            'comments' => CommentResource::collection($comments),
+            'total' => Comment::where('post_id', $post->id)->count(),
+        ]);
+    }
 }
