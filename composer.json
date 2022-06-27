@@ -6,15 +6,16 @@
     "license": "MIT",
     "require": {
         "php": "^8.0.2",
+        "ext-http": "*",
         "guzzlehttp/guzzle": "^7.4",
         "laravel/framework": "^9.11",
         "laravel/helpers": "^1.5",
         "laravel/sanctum": "^2.14.1",
         "laravel/telescope": "^4.9",
         "laravel/tinker": "^2.7",
+        "predis/predis": "^2.0",
         "tinymce/tinymce": "^6.0",
-        "unisharp/laravel-filemanager": "^2.5",
-      "ext-http": "*"
+        "unisharp/laravel-filemanager": "^2.5"
     },
     "require-dev": {
         "fakerphp/faker": "^1.9.1",

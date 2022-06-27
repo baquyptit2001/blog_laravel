@@ -32,6 +32,8 @@ Route::group(['prefix' => 'auth'], function () {
     Route::post('/login', [\App\Http\Controllers\Api\AuthController::class, 'login'])->name('api.auth.login');
     Route::post('/register', [\App\Http\Controllers\Api\AuthController::class, 'register'])->name('api.auth.register');
     Route::get('/logout', [\App\Http\Controllers\Api\AuthController::class, 'logout'])->name('api.auth.logout')->middleware('auth:sanctum');
+    Route::post('/forgot_password', [\App\Http\Controllers\Api\AuthController::class, 'forgotPassword'])->name('api.auth.forgot-password');
+    Route::post('/reset_password/{token}', [\App\Http\Controllers\Api\AuthController::class, 'resetPassword'])->name('api.auth.reset-password');
 });
 
 Route::group(['prefix' => 'comments'], function () {
