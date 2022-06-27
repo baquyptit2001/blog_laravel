@@ -7,6 +7,7 @@ use App\Http\Requests\Auth\LoginRequest;
 use App\Http\Requests\Auth\RegisterRequest;
 use App\Http\Resources\UserResource;
 use App\Jobs\ForgotPasswordJob;
+use App\Models\OTP;
 use App\Models\User;
 use Carbon\Carbon;
 use App\Models\PasswordReset;
@@ -15,6 +16,9 @@ use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
+use Twilio\Exceptions\ConfigurationException;
+use Twilio\Exceptions\TwilioException;
+use Twilio\Rest\Client;
 
 class AuthController extends Controller
 {
@@ -136,6 +140,81 @@ class AuthController extends Controller
             return response()->json([
                 'message' => 'Đã xảy ra lỗi, vui lòng thử lại sau',
             ], 422);
+        }
+    }
+
+    public function genOTP(): string
+    {
+        //generate OTP with 6 digits
+        return sprintf("%06d", mt_rand(1, 999999));
+    }
+
+    public function format_phone_number($phone_number): string
+    {
+        return str_starts_with($phone_number, '0') ? '+84' . substr($phone_number, 1) : $phone_number;
+    }
+
+    /**
+     * @throws TwilioException
+     * @throws ConfigurationException
+     */
+    public function sendSMS(Request $request): \Illuminate\Http\JsonResponse
+    {
+        try {
+            $request->validate([
+                'phone_number' => 'required|string|max:255',
+            ]);
+            $user = User::where('phone_number', $request->phone_number)->firstOrFail();
+            $phone_number = $this->format_phone_number($request->phone_number);
+            $client = new Client(env('TWILIO_SID'), env('TWILIO_AUTH_TOKEN'));
+            $otp = $this->genOTP();
+            $message = $client->messages->create(
+                $phone_number,
+                [
+                    'from' => env('TWILIO_PHONE_NUMBER'),
+                    'body' => 'Mã xác nhận của bạn là: ' . $otp,
+                ]
+            );
+            $OTP = new OTP();
+            $OTP->user_id = $user->id;
+            $OTP->otp = $otp;
+            $OTP->save();
+            return response()->json([
+                'message' => 'Đã gửi mã xác nhận đến số điện thoại của bạn',
+                'otp' => $otp,
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Số điện thoại không tồn tại hoặc không đúng hợp lệ',
+            ], 404);
+        }
+    }
+
+    public function verifyOTP(Request $request): \Illuminate\Http\JsonResponse
+    {
+        try {
+            $OTP = OTP::where('otp', $request->otp)->firstOrFail();
+            if (Carbon::parse($OTP->created_at)->addMinutes(5)->isPast()) {
+                $OTP->delete();
+
+                return response()->json([
+                    'message' => 'Mã xác nhận đã hết hạn',
+                ], 422);
+            }
+            $user = User::find($OTP->user_id);
+            $OTP->delete();
+            auth()->login($user);
+            $tokenResult = $user->createToken('Personal Access Token');
+            $token = $tokenResult->plainTextToken;
+            return response()->json([
+                'message' => 'Mã xác nhận đúng',
+                'user' => UserResource::make($user),
+                'access_token' => $token,
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Mã xác nhận không đúng',
+            ], 404);
         }
     }
 }

@@ -34,10 +34,11 @@ Route::group(['prefix' => 'auth'], function () {
     Route::get('/logout', [\App\Http\Controllers\Api\AuthController::class, 'logout'])->name('api.auth.logout')->middleware('auth:sanctum');
     Route::post('/forgot_password', [\App\Http\Controllers\Api\AuthController::class, 'forgotPassword'])->name('api.auth.forgot-password');
     Route::post('/reset_password/{token}', [\App\Http\Controllers\Api\AuthController::class, 'resetPassword'])->name('api.auth.reset-password');
+    Route::post('/send_sms', [\App\Http\Controllers\Api\AuthController::class, 'sendSMS'])->name('api.auth.send_sms');
+    Route::post('/verify_otp', [\App\Http\Controllers\Api\AuthController::class, 'verifyOTP'])->name('api.auth.verify_otp');
 });
 
 Route::group(['prefix' => 'comments'], function () {
-//    Route::get('/{post}/{user}', [\App\Http\Controllers\Api\CommentController::class, 'index'])->name('comments.index');
     Route::post('/{post}/{user}', [\App\Http\Controllers\Api\CommentController::class, 'store'])->name('comments.store');
     Route::get('/{post}/{page}/{size?}', [\App\Http\Controllers\Api\CommentController::class, 'post_comment'])->name('comments.post_comment');
 });
