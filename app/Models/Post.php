@@ -45,7 +45,7 @@ class Post extends Model
 
     public function getThumbnailAttribute()
     {
-        return asset($this->image);
+        return $this->image;
     }
 
     public function getCreatedAtHumanAttribute()
