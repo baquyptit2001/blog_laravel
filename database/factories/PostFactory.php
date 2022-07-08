@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 use JetBrains\PhpStorm\ArrayShape;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Post>
+ * @extends Factory
  */
 class PostFactory extends Factory
 {
@@ -17,14 +17,14 @@ class PostFactory extends Factory
      * @return array<string, mixed>
      * @throws Exception
      */
-    #[ArrayShape(['title' => "string", 'content' => "string", 'category_id' => "int", 'user_id' => "int"])] public function definition(): array
+    #[ArrayShape(['title' => "string", 'content' => "string", 'category_id' => "int", 'user_id' => "int", "image" => "string"])] public function definition(): array
     {
         return [
             'title' => $this->faker->sentence,
             'content' => $this->faker->paragraph(random_int(5, 10)),
             'category_id' => $this->faker->numberBetween(1, 10),
             'user_id' => $this->faker->numberBetween(1, 20),
-            'image' => "https://picsum.photos/500",
+            'image' => "https://picsum.photos/1000",
         ];
     }
 }
