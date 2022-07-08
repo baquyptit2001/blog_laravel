@@ -15,6 +15,8 @@ class PostController extends Controller
      *
      * @param $category
      * @param $sort
+     * @param $page
+     * @param $size
      * @return JsonResponse
      */
     public function index($category, $sort, $page, $size): JsonResponse
@@ -30,7 +32,7 @@ class PostController extends Controller
         }
         return response()->json(array(
             'posts' => PostResource::collection($posts),
-            'total' => Post::count(),
+            'total' => $category == 0 ? Post::count() : Post::where('category_id', $category)->count(),
         ));
     }
 
