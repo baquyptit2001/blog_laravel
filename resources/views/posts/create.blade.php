@@ -13,7 +13,7 @@
         <x-forms.tinymce-editor/>
         <div class="mb-3">
             <label for="postCategory" class="form-label">Category</label>
-            <select class="form-control" id="postCategory" name="category_id">
+            <select class="form-control selectpicker select-cate" tickIcon="x-lg" data-live-search="true" id="postCategory" name="category_id">
                 @foreach($categories as $category)
                     <option value="{{ $category->id }}">{{ $category->name }}</option>
                 @endforeach
@@ -43,5 +43,8 @@
                 URL.revokeObjectURL(output.src) // free memory
             }
         };
+        $( document ).ready(function() {
+            $('.select-cate').selectpicker();
+        });
     </script>
 @endsection

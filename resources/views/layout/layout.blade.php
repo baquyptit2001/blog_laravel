@@ -12,6 +12,9 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
           integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g=="
           crossorigin="anonymous" referrerpolicy="no-referrer"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.3/font/bootstrap-icons.css">
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.14.0-beta2/dist/css/bootstrap-select.min.css">
     <style>
         #burger-side {
             width: 30px;
@@ -160,6 +163,11 @@
         body {
             padding-bottom: 72px !important;
         }
+
+        .inner.show {
+            max-height: 200px;
+            overflow-y: scroll;
+        }
     </style>
     <x-head.tinymce-config/>
 </head>
@@ -259,6 +267,10 @@
 <div class="container">
     @yield('content')
 </div>
+<a href="{{ route('posts.create') }}" class="add-post btn btn-primary d-flex justify-content-center align-items-center"
+   style="width: 60px;height: 60px;position: fixed; bottom: 100px;right: 20px;border-radius: 50%">
+    <i class="bi bi-plus-circle" style="font-size: 50px"></i>
+</a>
 <footer class="bg-light py-3 fixed-bottom d-flex justify-content-around">
     <span>
       <a href="#">
@@ -285,6 +297,7 @@
         integrity="sha384-kjU+l4N0Yf4ZOJErLsIcvOU2qSb74wXpOhqTvwVx3OElZRweTnQ6d31fXEoRD1Jy"
         crossorigin="anonymous"></script>
 <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.14.0-beta2/dist/js/bootstrap-select.min.js"></script>
 <script>
     $(document).ready(function () {
         /* global bootstrap: false */

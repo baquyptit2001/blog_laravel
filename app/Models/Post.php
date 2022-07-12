@@ -22,17 +22,17 @@ class Post extends Model
         'created_at_human',
     ];
 
-    public function getRouteKeyName()
+    public function getRouteKeyName(): string
     {
         return 'slug';
     }
 
-    public function category()
+    public function category(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(Category::class);
     }
 
-    public function user()
+    public function user(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(User::class);
     }
@@ -48,13 +48,12 @@ class Post extends Model
         return $this->image;
     }
 
-    public function getCreatedAtHumanAttribute()
+    public function getCreatedAtHumanAttribute(): string
     {
-//        return "abc";
         return Carbon::createFromFormat('Y-m-d H:i:s', $this->created_at)->diffForHumans();
     }
 
-    public function comments()
+    public function comments(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(Comment::class);
     }

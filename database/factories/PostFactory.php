@@ -24,7 +24,7 @@ class PostFactory extends Factory
             'content' => $this->faker->paragraph(random_int(5, 10)),
             'category_id' => $this->faker->numberBetween(1, 10),
             'user_id' => $this->faker->numberBetween(1, 20),
-            'image' => "https://picsum.photos/1000",
+            'image' => "https://source.unsplash.com/random/1000x1000?sig=" . $this->faker->numberBetween(1, 1000),
         ];
     }
 }
