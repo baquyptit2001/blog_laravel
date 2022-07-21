@@ -26,13 +26,13 @@ class PostController extends Controller
           2 => 'desc',
         );
         if ($category) {
-            $posts = Post::where('category_id', $category)->orderBy('created_at', $sortings[$sort])->offset(($page - 1) * $size)->limit($size)->get();
+            $posts = Post::whereIn('category_id', explode(',', $category ))->orderBy('id', $sortings[$sort])->offset(($page - 1) * $size)->limit($size)->get();
         } else {
-            $posts = Post::orderBy('created_at', $sortings[$sort])->offset(($page - 1) * $size)->limit($size)->get();
+            $posts = Post::orderBy('id', $sortings[$sort])->offset(($page - 1) * $size)->limit($size)->get();
         }
         return response()->json(array(
             'posts' => PostResource::collection($posts),
-            'total' => $category == 0 ? Post::count() : Post::where('category_id', $category)->count(),
+            'total' => $category == 0 ? Post::count() : Post::whereIn('category_id', explode(',', $category ))->count(),
         ));
     }
 

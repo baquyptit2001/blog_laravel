@@ -40,7 +40,8 @@ Route::group(['prefix' => 'auth'], function () {
 
 Route::group(['prefix' => 'comments'], function () {
     Route::post('/{post}/{user}', [\App\Http\Controllers\Api\CommentController::class, 'store'])->name('comments.store');
-    Route::get('/{post}/{page}/{size?}', [\App\Http\Controllers\Api\CommentController::class, 'post_comment'])->name('comments.post_comment');
+    Route::get('/{post}/{page}/{size}', [\App\Http\Controllers\Api\CommentController::class, 'post_comment'])->name('comments.post_comment');
+    Route::get('/{post}/{offset}', [\App\Http\Controllers\Api\CommentController::class, 'post_comment_offset'])->name('comments.post_comment_offset');
 });
 
 Route::group(['prefix' => 'users'], function () {

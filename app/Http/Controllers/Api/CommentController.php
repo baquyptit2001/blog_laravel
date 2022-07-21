@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Events\CommentEvent;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\CommentResource;
 use App\Models\Comment;
@@ -28,6 +29,7 @@ class CommentController extends Controller
         $comment->post_id = $post->id;
         $comment->content = $request->content;
         $comment->save();
+        event(new CommentEvent(new CommentResource($comment), $comment->post_id));
         return response()->json([
             'comments' => new CommentResource($comment),
         ]);
@@ -36,9 +38,20 @@ class CommentController extends Controller
     public function post_comment(Post $post, $page, $size = 5)
     {
         $comments = Comment::where('post_id', $post->id)->orderBy('created_at', 'desc')->offset(($page - 1) * $size)->limit($size)->get();
+        $total = Comment::where('post_id', $post->id)->count();
         return response()->json([
             'comments' => CommentResource::collection($comments),
-            'total' => Comment::where('post_id', $post->id)->count(),
+            'total' => $total,
+        ]);
+    }
+
+    public function post_comment_offset(Post $post, $offset, $size = 5)
+    {
+        $comments = Comment::where('post_id', $post->id)->orderBy('id', 'desc')->offset($offset)->limit($size)->get();
+        $total = Comment::where('post_id', $post->id)->count();
+        return response()->json([
+            'comments' => CommentResource::collection($comments),
+            'is_end' => $total <= $offset + $size,
         ]);
     }
 }
