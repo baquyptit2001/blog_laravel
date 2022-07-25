@@ -12,9 +12,7 @@ use App\Models\User;
 use Carbon\Carbon;
 use App\Models\PasswordReset;
 use Illuminate\Http\Request;
-use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 use Twilio\Exceptions\ConfigurationException;
 use Twilio\Exceptions\TwilioException;
@@ -96,7 +94,7 @@ class AuthController extends Controller
                 'token' => Str::random(60),
             ]);
             if ($passwordReset) {
-                ForgotPasswordJob::dispatch($passwordReset->token, $user);
+                ForgotPasswordJob::dispatch($passwordReset->token, $user, $request->platform);
             }
 
             return response()->json([
@@ -105,7 +103,7 @@ class AuthController extends Controller
             ]);
         } catch (\Exception $e) {
             return response()->json([
-                'message' => 'Email không tồn tại',
+                'message' => $e->getMessage(),
             ], 404);
         }
     }

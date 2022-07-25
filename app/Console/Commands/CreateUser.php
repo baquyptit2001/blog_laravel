@@ -52,12 +52,12 @@ class CreateUser extends Command
             break;
         }
         $this->info('Creating user...');
-        User::create([
-            'name' => $user->name,
-            'email' => $user->email,
-            'password' => Hash::make($user->password),
-            'role' => 1
-        ]);
+        $save = new User();
+        $save->name = $user->name;
+        $save->email = $user->email;
+        $save->password = Hash::make($user->password);
+        $save->role = 1;
+        $save->save();
         $this->info('User created successfully!');
         return 0;
     }

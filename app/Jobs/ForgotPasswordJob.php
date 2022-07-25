@@ -23,11 +23,13 @@ class ForgotPasswordJob implements ShouldQueue
      */
     public $token;
     public $user;
+    public $platform;
 
-    public function __construct($token, $user)
+    public function __construct($token, $user, $platform)
     {
         $this->token = $token;
         $this->user = $user;
+        $this->platform = $platform;
     }
 
     /**
@@ -38,7 +40,8 @@ class ForgotPasswordJob implements ShouldQueue
     public function handle()
     {
         //send forgot password email
-        $url = env('FE_URL') . 'accounts/forgot_password/' . $this->token;
+        $FE_URL = $this->platform == 'angular' ? env('ANGULAR_URL') : env('NUXT_URL');
+        $url = $FE_URL . 'accounts/forgot_password/' . $this->token;
 //        Log::channel('mail')->info("URL = $url");
         $user = $this->user;
         Mail::send('mails.forgot_password', ['url' => $url], function ($message) use ($user) {
