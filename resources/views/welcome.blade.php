@@ -2,6 +2,6 @@
 
 @section('content')
     <div class="container">
-        HIHI
+        Nguyễn Bá Quý
     </div>
 @endsection
