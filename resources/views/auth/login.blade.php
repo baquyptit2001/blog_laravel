@@ -10,7 +10,7 @@
 
     <link rel="canonical" href="https://getbootstrap.com/docs/5.0/examples/sign-in/">
     <link href="https://getbootstrap.com/docs/5.2/dist/css/bootstrap.min.css" rel="stylesheet"
-          integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+          integrity="" crossorigin="anonymous">
     <meta name="theme-color" content="#7952b3">
 
 
@@ -88,7 +88,7 @@
     </form>
 </main>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"
-        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+        integrity="" crossorigin="anonymous"></script>
 <script type="text/javascript">
     var _captchaTries = 0;
 
